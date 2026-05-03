@@ -46,21 +46,6 @@
     margin-left: 8px;
     font-size: 13px;
   }
-  .timer {
-    font-family: "SF Mono", Monaco, monospace;
-    font-size: 20px;
-    padding: 6px 14px;
-    background: var(--panel-2);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    color: var(--accent);
-    min-width: 100px;
-    text-align: center;
-  }
-  .timer.warn { color: var(--warn); border-color: var(--warn); }
-  .timer.danger { color: var(--bad); border-color: var(--bad); animation: pulse 1s infinite; }
-  @keyframes pulse { 50% { opacity: 0.6; } }
-
   main {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -235,7 +220,6 @@
 <body>
 <header>
   <h1>IB MYP Language &amp; Literature <span>Task 1 — Text Analysis Simulator</span></h1>
-  <div class="timer" id="timer">15:00</div>
 </header>
 
 <main>
@@ -344,8 +328,6 @@ For as long as it did not arrive, the leaving had not yet truly begun.`,
 ];
 
 let currentSet = 0;
-let timerInterval;
-let timeLeft = 15 * 60;
 
 const $ = id => document.getElementById(id);
 
@@ -504,29 +486,6 @@ function nextSet() {
   loadSet(currentSet);
 }
 
-function updateTimer() {
-  const m = Math.floor(timeLeft / 60);
-  const s = timeLeft % 60;
-  $("timer").textContent = `${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
-  const t = $("timer");
-  t.classList.remove("warn", "danger");
-  if (timeLeft <= 60) t.classList.add("danger");
-  else if (timeLeft <= 300) t.classList.add("warn");
-  if (timeLeft <= 0) {
-    clearInterval(timerInterval);
-    submit();
-    return;
-  }
-  timeLeft--;
-}
-
-function startTimer() {
-  timeLeft = 15 * 60;
-  updateTimer();
-  clearInterval(timerInterval);
-  timerInterval = setInterval(updateTimer, 1000);
-}
-
 $("answer1a").addEventListener("input", e => $("count1a").textContent = e.target.value.length);
 $("answer1b").addEventListener("input", e => $("count1b").textContent = e.target.value.length);
 $("submitBtn").addEventListener("click", submit);
@@ -534,7 +493,6 @@ $("nextBtn").addEventListener("click", nextSet);
 $("resetBtn").addEventListener("click", resetAnswers);
 
 loadSet(0);
-startTimer();
 </script>
 </body>
 </html>
