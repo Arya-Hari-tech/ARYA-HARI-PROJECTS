@@ -3,494 +3,740 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>IB MYP Language & Literature — Task 1 Simulator</title>
+<title>IB MYP Language &amp; Literature — Task 1 Trainer</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
-    --bg: #0e1116;
-    --panel: #161b22;
-    --panel-2: #1c222b;
-    --border: #2a313c;
-    --text: #e6edf3;
-    --muted: #8b949e;
-    --accent: #58a6ff;
-    --accent-2: #1f6feb;
-    --good: #3fb950;
-    --warn: #d29922;
-    --bad: #f85149;
+    --bg: #f4f6fa;
+    --panel: #ffffff;
+    --ink: #1a2435;
+    --ink-soft: #4a5568;
+    --muted: #7a8a9a;
+    --line: #e2e8ef;
+    --accent: #1a365d;
+    --accent-soft: #234876;
+    --gold: #c9a961;
+    --gold-soft: #fff8e1;
+    --good: #2f855a;
+    --good-bg: #c6f6d5;
+    --warn: #b7791f;
+    --warn-bg: #fefcbf;
+    --bad: #c53030;
+    --bad-bg: #fed7d7;
+    --shadow: 0 2px 8px rgba(20, 30, 50, 0.06);
   }
+  html, body { height: 100%; }
   body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    line-height: 1.55;
-    height: 100vh;
-    overflow: hidden;
+    font-family: Georgia, "Times New Roman", serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e8eef3 100%);
+    color: var(--ink);
+    line-height: 1.6;
+    padding: 22px;
+    min-height: 100vh;
   }
+  .container { max-width: 1400px; margin: 0 auto; }
+
   header {
+    background: var(--accent);
+    color: #fff;
+    padding: 22px 28px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    margin-bottom: 22px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 14px 22px;
-    background: var(--panel);
-    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+    gap: 12px;
   }
   header h1 {
-    font-size: 18px;
+    font-size: 1.45rem;
     font-weight: 600;
-    letter-spacing: 0.2px;
+    letter-spacing: 0.4px;
   }
-  header h1 span {
-    color: var(--muted);
-    font-weight: 400;
-    margin-left: 8px;
-    font-size: 13px;
+  .set-pill {
+    background: rgba(255,255,255,0.15);
+    padding: 7px 16px;
+    border-radius: 20px;
+    font-size: 0.88rem;
+    font-family: -apple-system, "Segoe UI", sans-serif;
+    letter-spacing: 0.5px;
   }
-  main {
+
+  .grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1px;
-    background: var(--border);
-    height: calc(100vh - 60px);
+    gap: 22px;
   }
+  @media (max-width: 960px) {
+    .grid { grid-template-columns: 1fr; }
+  }
+
   .panel {
-    background: var(--bg);
-    overflow-y: auto;
-    padding: 22px 26px;
-  }
-  .panel::-webkit-scrollbar { width: 8px; }
-  .panel::-webkit-scrollbar-track { background: var(--panel); }
-  .panel::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
-
-  .set-meta {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 14px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid var(--border);
-  }
-  .set-meta h2 { font-size: 15px; color: var(--accent); }
-  .set-meta .badge {
-    background: var(--panel-2);
-    border: 1px solid var(--border);
-    padding: 3px 10px;
+    background: var(--panel);
     border-radius: 12px;
-    font-size: 12px;
+    padding: 24px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--line);
+  }
+  .panel-title {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 1.6px;
     color: var(--muted);
-  }
-  .text-title {
-    font-size: 17px;
-    font-weight: 600;
-    margin-bottom: 6px;
-  }
-  .text-sub {
-    font-size: 12px;
-    color: var(--muted);
-    margin-bottom: 16px;
-    font-style: italic;
-  }
-  .text-body {
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 18px 20px;
-    font-size: 15px;
-    white-space: pre-line;
-    line-height: 1.75;
+    font-weight: 700;
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--line);
+    font-family: -apple-system, "Segoe UI", sans-serif;
   }
 
-  .question-block {
-    margin-bottom: 22px;
+  .passage {
+    font-size: 1.04rem;
+    line-height: 1.85;
+    color: var(--ink);
+    background: #fefcf6;
+    padding: 22px;
+    border-radius: 8px;
+    border-left: 4px solid var(--gold);
+    white-space: pre-line;
   }
-  .q-label {
-    font-weight: 600;
-    margin-bottom: 6px;
+
+  .qblock { margin-bottom: 22px; }
+  .qblock:last-of-type { margin-bottom: 8px; }
+
+  .qhead {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 6px;
   }
-  .q-label .marks {
-    font-size: 12px;
-    color: var(--muted);
-    background: var(--panel-2);
-    padding: 2px 8px;
-    border-radius: 10px;
+  .qlabel {
+    font-weight: 700;
+    color: var(--accent);
+    font-size: 1rem;
+    font-family: -apple-system, "Segoe UI", sans-serif;
   }
-  .q-text { color: var(--muted); margin-bottom: 8px; font-size: 14px; }
-  .quote {
-    background: var(--panel);
-    border-left: 3px solid var(--accent);
-    padding: 8px 12px;
+  .marks {
+    background: var(--accent);
+    color: #fff;
+    padding: 3px 11px;
+    border-radius: 12px;
+    font-size: 0.78rem;
+    font-family: -apple-system, "Segoe UI", sans-serif;
+    font-weight: 600;
+  }
+  .qtext {
+    font-size: 0.96rem;
+    color: var(--ink-soft);
     margin-bottom: 8px;
     font-style: italic;
-    font-size: 13px;
-    color: #c9d1d9;
-    border-radius: 0 4px 4px 0;
+  }
+  .ref {
+    background: var(--gold-soft);
+    border-left: 3px solid var(--gold);
+    padding: 10px 14px;
+    margin: 8px 0 10px 0;
+    font-style: italic;
+    font-size: 0.94rem;
+    border-radius: 4px;
+    color: #5a4a1a;
+  }
+  .ref .ref-tag {
+    display: inline-block;
+    font-style: normal;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    letter-spacing: 1.5px;
+    color: var(--gold);
+    margin-right: 8px;
+    font-family: -apple-system, "Segoe UI", sans-serif;
   }
 
   textarea {
     width: 100%;
-    background: var(--panel);
-    color: var(--text);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 12px;
-    font-family: inherit;
-    font-size: 14px;
+    min-height: 130px;
+    padding: 13px 14px;
+    border: 1.5px solid #d1dae3;
+    border-radius: 8px;
+    font-family: Georgia, serif;
+    font-size: 0.98rem;
     resize: vertical;
-    min-height: 110px;
+    color: var(--ink);
+    background: #fcfcfd;
     line-height: 1.6;
+    transition: border-color 0.18s, box-shadow 0.18s;
   }
   textarea:focus {
     outline: none;
     border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15);
+    box-shadow: 0 0 0 3px rgba(26, 54, 93, 0.12);
+    background: #fff;
   }
   .counter {
-    font-size: 11px;
+    font-size: 0.78rem;
     color: var(--muted);
     text-align: right;
-    margin-top: 4px;
+    margin-top: 5px;
+    font-family: -apple-system, "Segoe UI", sans-serif;
   }
 
-  .feedback {
-    margin-top: 8px;
-    padding: 10px 12px;
-    border-radius: 6px;
-    background: var(--panel-2);
-    border: 1px solid var(--border);
-    font-size: 13px;
-    display: none;
-  }
-  .feedback.show { display: block; }
-  .feedback .score {
-    font-weight: 600;
-    margin-bottom: 4px;
-  }
-  .feedback .score.full { color: var(--good); }
-  .feedback .score.partial { color: var(--warn); }
-  .feedback .score.low { color: var(--bad); }
-  .feedback ul { padding-left: 18px; margin-top: 4px; color: var(--muted); }
-  .feedback ul li.ok { color: var(--good); list-style: none; margin-left: -18px; }
-  .feedback ul li.miss { color: var(--bad); list-style: none; margin-left: -18px; }
-
-  .controls {
+  .buttons {
     display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    padding-top: 14px;
-    border-top: 1px solid var(--border);
-    margin-top: 12px;
+    gap: 10px;
+    margin-top: 18px;
   }
   button {
-    padding: 9px 16px;
-    border: 1px solid var(--border);
-    background: var(--panel);
-    color: var(--text);
-    border-radius: 6px;
-    font-size: 13px;
+    flex: 1;
+    padding: 12px 18px;
+    border: none;
+    border-radius: 8px;
+    font-family: -apple-system, "Segoe UI", sans-serif;
+    font-size: 0.94rem;
+    font-weight: 600;
     cursor: pointer;
-    font-weight: 500;
-    transition: 0.15s;
+    transition: transform 0.08s, background 0.18s, box-shadow 0.18s;
+    letter-spacing: 0.2px;
   }
-  button:hover { background: var(--panel-2); border-color: var(--accent); }
-  button.primary { background: var(--accent-2); border-color: var(--accent-2); color: white; }
-  button.primary:hover { background: var(--accent); border-color: var(--accent); }
-  button:active { transform: translateY(1px); }
+  button:active { transform: scale(0.97); }
+  .btn-submit { background: var(--accent); color: #fff; }
+  .btn-submit:hover { background: var(--accent-soft); }
+  .btn-next { background: var(--gold); color: #fff; }
+  .btn-next:hover { background: #b8983e; }
+  .btn-reset { background: #e1e8ed; color: var(--ink-soft); }
+  .btn-reset:hover { background: #ccd5dc; }
 
-  .total-score {
-    margin-top: 14px;
-    padding: 12px;
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    text-align: center;
-    font-size: 14px;
+  .feedback {
     display: none;
+    margin-top: 22px;
+    grid-column: 1 / -1;
   }
-  .total-score.show { display: block; }
-  .total-score .num {
-    font-size: 22px;
+  .feedback.visible { display: block; }
+
+  .total {
+    background: var(--panel);
+    border-radius: 12px;
+    padding: 26px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    margin-bottom: 18px;
+    border: 1px solid var(--line);
+  }
+  .total h2 {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 1.6px;
+    color: var(--muted);
+    margin-bottom: 10px;
+    font-family: -apple-system, "Segoe UI", sans-serif;
+    font-weight: 700;
+  }
+  .score {
+    font-size: 3.2rem;
+    font-weight: 700;
+    line-height: 1;
+    font-family: -apple-system, "Segoe UI", sans-serif;
+  }
+  .score.green { color: var(--good); }
+  .score.yellow { color: var(--warn); }
+  .score.red { color: var(--bad); }
+  .score-label {
+    margin-top: 8px;
+    font-size: 0.98rem;
+    color: var(--ink-soft);
+  }
+
+  .fb-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+  @media (max-width: 960px) {
+    .fb-grid { grid-template-columns: 1fr; }
+  }
+
+  .fb-card {
+    background: var(--panel);
+    border-radius: 12px;
+    padding: 22px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--line);
+  }
+  .fb-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--line);
+  }
+  .fb-title {
     font-weight: 700;
     color: var(--accent);
+    font-size: 1.05rem;
+    font-family: -apple-system, "Segoe UI", sans-serif;
+  }
+  .fb-score {
+    background: #f0f3f8;
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-weight: 700;
+    color: var(--accent);
+    font-family: -apple-system, "Segoe UI", sans-serif;
+    font-size: 0.92rem;
+  }
+  .level {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    font-family: -apple-system, "Segoe UI", sans-serif;
+    letter-spacing: 0.5px;
+  }
+  .level-1 { background: var(--bad-bg); color: var(--bad); }
+  .level-2 { background: var(--warn-bg); color: var(--warn); }
+  .level-3 { background: var(--good-bg); color: var(--good); }
+
+  .fb-section { margin-top: 12px; }
+  .fb-section h4 {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
+    color: var(--muted);
+    margin-bottom: 6px;
+    font-family: -apple-system, "Segoe UI", sans-serif;
+    font-weight: 700;
+  }
+  .fb-list {
+    list-style: none;
+    padding-left: 0;
+  }
+  .fb-list li {
+    padding: 5px 0 5px 22px;
+    position: relative;
+    font-size: 0.93rem;
+    line-height: 1.5;
+  }
+  .fb-list.miss li::before {
+    content: '✗';
+    position: absolute;
+    left: 0;
+    color: var(--bad);
+    font-weight: 700;
+  }
+  .fb-list.good li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--good);
+    font-weight: 700;
+  }
+
+  .model {
+    background: #f7fafc;
+    border-left: 4px solid var(--accent);
+    padding: 14px 18px;
+    border-radius: 6px;
+    margin-top: 14px;
+  }
+  .model h4 {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
+    color: var(--accent);
+    margin-bottom: 10px;
+    font-family: -apple-system, "Segoe UI", sans-serif;
+    font-weight: 700;
+  }
+  .model .row {
+    margin: 6px 0;
+    font-size: 0.92rem;
+    line-height: 1.65;
+  }
+  .model .row strong {
+    color: var(--accent);
+    display: inline-block;
+    min-width: 105px;
+    font-family: -apple-system, "Segoe UI", sans-serif;
+    font-size: 0.84rem;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
   }
 </style>
 </head>
 <body>
-<header>
-  <h1>IB MYP Language &amp; Literature <span>Task 1 — Text Analysis Simulator</span></h1>
-</header>
+<div class="container">
 
-<main>
-  <section class="panel" id="textPanel">
-    <div class="set-meta">
-      <h2 id="setLabel">Set 1 of 3</h2>
-      <span class="badge" id="setGenre">Prose</span>
-    </div>
-    <div class="text-title" id="textTitle"></div>
-    <div class="text-sub" id="textSub"></div>
-    <div class="text-body" id="textBody"></div>
-  </section>
+  <header>
+    <h1>IB MYP Language &amp; Literature — Task 1 Trainer</h1>
+    <div class="set-pill">Set <span id="setNumber">1</span> of 5</div>
+  </header>
 
-  <section class="panel">
-    <div class="question-block">
-      <div class="q-label">Question 1a <span class="marks">/ 3 marks</span></div>
-      <div class="q-text" id="q1aText"></div>
-      <textarea id="answer1a" placeholder="Write your response here..."></textarea>
-      <div class="counter"><span id="count1a">0</span> characters</div>
-      <div class="feedback" id="feedback1a"></div>
-    </div>
+  <div class="grid">
+    <section class="panel">
+      <div class="panel-title">Text 1</div>
+      <div class="passage" id="passage"></div>
+    </section>
 
-    <div class="question-block">
-      <div class="q-label">Question 1b <span class="marks">/ 2 marks</span></div>
-      <div class="q-text" id="q1bText"></div>
-      <div class="quote" id="q1bQuote"></div>
-      <textarea id="answer1b" placeholder="Analyse the effect of the quoted phrase..."></textarea>
-      <div class="counter"><span id="count1b">0</span> characters</div>
-      <div class="feedback" id="feedback1b"></div>
-    </div>
+    <section class="panel">
+      <div class="panel-title">Response</div>
 
-    <div class="controls">
-      <button class="primary" id="submitBtn">Submit</button>
-      <button id="nextBtn">Next Set</button>
-      <button id="resetBtn">Reset Answers</button>
-    </div>
+      <div class="qblock">
+        <div class="qhead">
+          <span class="qlabel">Question 1a</span>
+          <span class="marks">/ 3 marks</span>
+        </div>
+        <div class="qtext" id="q1aText"></div>
+        <textarea id="q1aInput" placeholder="Identify purpose and explain effect, with deeper meaning..."></textarea>
+        <div class="counter"><span id="q1aChars">0</span> chars · <span id="q1aWords">0</span> words</div>
+      </div>
 
-    <div class="total-score" id="totalScore">
-      Total: <span class="num" id="totalNum">0 / 5</span>
+      <div class="qblock">
+        <div class="qhead">
+          <span class="qlabel">Question 1b</span>
+          <span class="marks">/ 2 marks</span>
+        </div>
+        <div class="qtext" id="q1bText"></div>
+        <div class="ref"><span class="ref-tag">Reference</span>"<span id="q1bRef"></span>"</div>
+        <textarea id="q1bInput" placeholder="Name technique, analyse a specific word, suggest deeper meaning..."></textarea>
+        <div class="counter"><span id="q1bChars">0</span> chars · <span id="q1bWords">0</span> words</div>
+      </div>
+
+      <div class="buttons">
+        <button class="btn-submit" id="btnSubmit">Submit</button>
+        <button class="btn-next" id="btnNext">Next Set</button>
+        <button class="btn-reset" id="btnReset">Reset</button>
+      </div>
+    </section>
+
+    <div class="feedback" id="feedback">
+      <div class="total">
+        <h2>Total Score</h2>
+        <div class="score" id="totalScore">0/5</div>
+        <div class="score-label" id="scoreLabel"></div>
+      </div>
+      <div class="fb-grid">
+        <div class="fb-card" id="q1aFeedback"></div>
+        <div class="fb-card" id="q1bFeedback"></div>
+      </div>
     </div>
-  </section>
-</main>
+  </div>
+</div>
 
 <script>
-const SETS = [
+const TEXT_SETS = [
   {
-    title: "The Old Lighthouse",
-    sub: "Extract from a short story",
-    genre: "Prose Fiction",
-    text:
-`The lighthouse stood alone on the jagged cliff, its white paint peeling like dried skin in the salt wind.
-Below, the sea churned restlessly, hammering the rocks with the patience of a thousand winters.
-Maren climbed the spiral stairs, her boots echoing against the cold iron, each step a heartbeat in the silence.
-At the top, the lamp had not been lit in seven years, yet the glass still gleamed faintly in the moonlight.
-She thought of her father, of the storms he had outlasted, of the ships he had guided home through the dark.
-"You are not gone," she whispered, "only waiting."`,
-    q1a: "Identify the purpose and significance of the description of the lighthouse in the opening two lines.",
-    q1b: "Analyse the effect of the simile used to describe the peeling paint.",
-    quote: '"its white paint peeling like dried skin in the salt wind"'
+    passage: `The house stood at the end of the cracked driveway, its windows like sunken eyes staring blindly at the overgrown lawn. Paint peeled from its wooden frame in long, curling strips, and the front door hung slightly off its hinges. A solitary crow perched on the chimney, watching the silent street below. The wind whispered through the broken shutters, carrying with it the faint scent of damp earth and decay. Even the sun seemed reluctant to touch its weathered roof.`,
+    q1a: "What is the purpose of this opening description?",
+    q1b: "How does the writer create a sense of unease in this passage?",
+    reference: "windows like sunken eyes",
+    modelQ1a: {
+      technique: "Vivid descriptive imagery and personification of an abandoned house.",
+      evidence: "\"windows like sunken eyes,\" \"paint peeled in long, curling strips,\" \"a solitary crow.\"",
+      effect: "Establishes a foreboding, melancholic atmosphere from the very first line.",
+      meaning: "Suggests the house has been forgotten and is decaying, mirroring lifelessness, neglect or grief.",
+      readerImpact: "Draws the reader into a state of unease and curiosity, anticipating that something hidden or sinister lies within."
+    },
+    modelQ1b: {
+      technique: "The writer uses a simile combined with personification.",
+      evidence: "In \"windows like sunken eyes,\" the windows are compared to hollow human features.",
+      effect: "This creates an unsettling, almost watchful tone that unsettles the reader.",
+      meaning: "The word \"sunken\" specifically implies decay, exhaustion and lifelessness, suggesting the house has lost its vitality.",
+      readerImpact: "The reader is left with the haunting impression that the house, like a dying figure, observes without truly seeing."
+    }
   },
   {
-    title: "The Crowd at Dawn",
-    sub: "Extract from a journalistic feature",
-    genre: "Non-Fiction",
-    text:
-`At first light, the square was already a living thing — breathing, shifting, murmuring in a hundred tongues.
-Vendors unfolded their stalls like sleepy birds spreading their wings, while the smell of roasted chestnuts crept through the cold morning.
-Children darted between legs and baskets, laughing without reason, chased only by the rising sun.
-An old man sat alone on a bench, watching the chaos with quiet, knowing eyes.
-He had seen this square empty during the war, and full again in peace, and empty once more in winter.
-Now, it was full, and that, to him, was a small and stubborn miracle.`,
-    q1a: "Identify the significance of describing the square as 'a living thing' in the opening line.",
-    q1b: "Analyse the effect of the simile comparing vendors to 'sleepy birds spreading their wings'.",
-    quote: '"Vendors unfolded their stalls like sleepy birds spreading their wings"'
+    passage: `Marcus pushed through the crowded station, his briefcase clutched tightly against his chest like a shield. His grey suit, once sharp, now sagged at the shoulders, and faint shadows pooled beneath his eyes. He glanced at his watch — 6:47 a.m. — and exhaled sharply, as if exhaling the very weight of the morning. Around him, commuters moved like ants, focused, indifferent, mechanical. He stepped onto the train and slipped into the corner seat, invisible once more.`,
+    q1a: "What does this passage reveal about Marcus and his world?",
+    q1b: "How does the writer convey Marcus's exhaustion?",
+    reference: "commuters moved like ants",
+    modelQ1a: {
+      technique: "Characterisation through physical description and behavioural detail.",
+      evidence: "\"sagged at the shoulders,\" \"shadows pooled beneath his eyes,\" \"invisible once more.\"",
+      effect: "Establishes Marcus as a worn, defeated figure trapped within an unrelenting routine.",
+      meaning: "Implies he has been ground down by repetition and anonymity, revealing the dehumanising weight of modern urban life.",
+      readerImpact: "Encourages the reader to feel pity and recognition, identifying with the universal feeling of being unseen in a crowd."
+    },
+    modelQ1b: {
+      technique: "The writer uses a dehumanising simile.",
+      evidence: "In \"commuters moved like ants,\" the busy workers are compared to small, identical insects.",
+      effect: "This creates a tone of mechanical detachment and isolation.",
+      meaning: "The word \"ants\" specifically suggests insignificance, conformity and mindless repetition, reinforcing how Marcus feels lost in the mass.",
+      readerImpact: "The reader is left with the impression that human individuality has been swallowed by routine, intensifying Marcus's exhaustion."
+    }
   },
   {
-    title: "The Letter Never Sent",
-    sub: "Extract from a literary novel",
-    genre: "Prose Fiction",
-    text:
-`Eli folded the letter carefully, as though the paper itself could shatter if he was careless with it.
-He had written it in the small hours, when honesty came easier and the city outside was a quiet, indifferent stranger.
-Each word had been chosen, then doubted, then chosen again, leaving the page bruised with crossings-out.
-He slid it into the drawer beside the others — twelve in total now, all addressed to her, none ever sent.
-Tomorrow, he told himself, as he had told himself for three years.
-Tomorrow, the words would feel light enough to carry.`,
-    q1a: "Identify the purpose of describing Eli's careful folding of the letter at the start of the passage.",
-    q1b: "Analyse the effect of the phrase 'leaving the page bruised with crossings-out'.",
-    quote: '"leaving the page bruised with crossings-out"'
+    passage: `The forest exhaled with the dawn, mist rising from the moss-covered floor in soft, ghostly tendrils. Birds began their cautious song, hesitant notes that grew braver as the light spilled through the canopy. Dewdrops trembled on every leaf, catching the sun like scattered diamonds. A young deer stepped silently into the clearing, ears flickering at every distant sound. The forest, alive yet still, seemed to hold its breath, waiting.`,
+    q1a: "What is the significance of this opening passage?",
+    q1b: "How does the writer create a sense of tranquility?",
+    reference: "Dewdrops trembled on every leaf",
+    modelQ1a: {
+      technique: "Personification and sensory imagery of the natural world.",
+      evidence: "\"the forest exhaled,\" \"seemed to hold its breath, waiting.\"",
+      effect: "Establishes a serene, almost sacred atmosphere of awakening.",
+      meaning: "Implies that nature is a living, conscious presence, suggesting a deep harmony between life and stillness.",
+      readerImpact: "Invites the reader to slow down and feel the quiet wonder of dawn, encouraging reflection on natural beauty."
+    },
+    modelQ1b: {
+      technique: "The writer employs delicate visual imagery and personification.",
+      evidence: "In \"Dewdrops trembled on every leaf,\" the verb \"trembled\" gives the dew a fragile, lifelike quality.",
+      effect: "This creates a gentle, peaceful mood that softens the entire scene.",
+      meaning: "The word \"trembled\" specifically implies vulnerability and quiet anticipation, reinforcing the hush of dawn.",
+      readerImpact: "The reader is drawn into a moment of stillness, feeling as though even breath might disturb the fragile harmony of the forest."
+    }
   },
   {
-    title: "The Last Train",
-    sub: "Extract from a contemporary short story",
-    genre: "Prose Fiction",
-    text:
-`The platform was almost empty, save for a flickering lamp that buzzed like a trapped insect.
-Sara clutched her ticket so tightly that the corners had begun to soften and curl.
-Somewhere behind her, a clock ticked with the dull persistence of an unfinished thought.
-She had said goodbye an hour ago, but her feet still refused to move from the painted yellow line.
-The train was late. The train was always late. Tonight, she was glad of it.
-For as long as it did not arrive, the leaving had not yet truly begun.`,
-    q1a: "Identify the significance of the description of the platform in the opening line.",
-    q1b: "Analyse the effect of the simile comparing the lamp to 'a trapped insect'.",
-    quote: '"a flickering lamp that buzzed like a trapped insect"'
+    passage: `"You don't understand," she whispered, her voice splintering in the cold air. Her hands trembled as she clutched the letter, its edges crumpled from being read too many times. Behind her, the rain hammered against the window, drowning the room in a steady, mournful rhythm. He took a step closer, but she flinched, retreating like a wounded animal. The silence between them stretched, thick and unbearable, until she finally let the letter fall.`,
+    q1a: "What is the purpose of this moment in the narrative?",
+    q1b: "How does the writer convey the woman's emotional state?",
+    reference: "splintering in the cold air",
+    modelQ1a: {
+      technique: "Dramatic dialogue paired with pathetic fallacy.",
+      evidence: "\"You don't understand,\" \"the rain hammered against the window,\" \"the silence... stretched, thick and unbearable.\"",
+      effect: "Establishes a moment of profound emotional crisis and dramatic tension.",
+      meaning: "Implies a breakdown of communication and trust, suggesting that something irreversible has been revealed in the letter.",
+      readerImpact: "Positions the reader as a silent witness to her pain, heightening empathy and emotional engagement."
+    },
+    modelQ1b: {
+      technique: "The writer uses a striking auditory metaphor.",
+      evidence: "In \"her voice splintering in the cold air,\" sound is compared to fragile, breaking wood.",
+      effect: "This creates a tone of fragility and emotional collapse.",
+      meaning: "The word \"splintering\" specifically implies fracture, pain and irreparable damage, suggesting she is breaking apart from within.",
+      readerImpact: "The reader is given a vivid, almost physical sense of her vulnerability, making her grief tangible and unforgettable."
+    }
+  },
+  {
+    passage: `I remember the summers at my grandmother's cottage as if they were stitched into me. The air always smelled of lavender and warm bread, and the floorboards creaked their quiet welcome each morning. She would hum while kneading dough, her hands dusted with flour, her eyes crinkling with each old song. The garden burst with colour, every bee a tiny golden traveller. Even now, decades later, the memory clings — soft, persistent, a comfort in the dark.`,
+    q1a: "What is the significance of this reflective passage?",
+    q1b: "How does the writer convey the strength of memory?",
+    reference: "stitched into me",
+    modelQ1a: {
+      technique: "First-person nostalgic reflection enriched with sensory imagery.",
+      evidence: "\"smelled of lavender and warm bread,\" \"a comfort in the dark.\"",
+      effect: "Establishes a warm, tender tone of remembrance and longing.",
+      meaning: "Implies that memory is not merely recollection but a living presence, suggesting the grandmother's enduring emotional influence.",
+      readerImpact: "Encourages the reader to reflect on their own cherished memories and feel the comforting pull of the past."
+    },
+    modelQ1b: {
+      technique: "The writer uses a tactile metaphor.",
+      evidence: "In \"as if they were stitched into me,\" memory is compared to thread sewn into fabric.",
+      effect: "This creates an intimate, enduring tone.",
+      meaning: "The word \"stitched\" specifically implies permanence, craftsmanship and a memory that has become inseparable from the self.",
+      readerImpact: "The reader is left with the impression that meaningful memories shape identity itself, emphasising their lasting power."
+    }
   }
 ];
-
-let currentSet = 0;
 
 const $ = id => document.getElementById(id);
+let currentSet = 0;
 
-function loadSet(i) {
-  const s = SETS[i];
-  $("setLabel").textContent = `Set ${i + 1} of ${SETS.length}`;
-  $("setGenre").textContent = s.genre;
-  $("textTitle").textContent = s.title;
-  $("textSub").textContent = s.sub;
-  $("textBody").textContent = s.text;
-  $("q1aText").textContent = s.q1a;
-  $("q1bText").textContent = s.q1b;
-  $("q1bQuote").textContent = s.quote;
-  resetAnswers();
+/* ---------- Detection patterns ---------- */
+const RE_PURPOSE   = /\b(introduc(?:e|es|ing)|establish(?:es|ing|ed)?|highlight(?:s|ing|ed)?|present(?:s|ing|ed)?|emphasi[sz](?:e|es|ed|ing)|convey(?:s|ing|ed)?|set(?:s|ting)?\s+up|portray(?:s|ing|ed)?|depict(?:s|ing|ed)?|signif(?:y|ies|icance)|frame(?:s|d)?)\b/i;
+const RE_EFFECT    = /\b(tone|mood|atmosphere|theme|feeling|emotion|sense\s+of|ambien(?:ce|t))\b/i;
+const RE_DEEPER    = /\b(suggest(?:s|ing|ed)?|impl(?:y|ies|ied|ying)|reveal(?:s|ing|ed)?|hint(?:s|ing|ed)?|allud(?:e|es|ed|ing)|indicat(?:e|es|ed|ing)|reflect(?:s|ing|ed)?|connot(?:e|es|ation|ations)|signif(?:y|ies|ied|ying))\b/i;
+const RE_CONNECT   = /\b(because|which\s+shows|which\s+suggests?|which\s+impl(?:y|ies)|therefore|thereby|so\s+that|as\s+it|in\s+order\s+to|implying|by\s+doing\s+so|hence|thus)\b/i;
+const RE_GENERIC   = /\bthis\s+(shows|helps|makes)\b/i;
+const RE_TECHNIQUE = /\b(metaphor|simile|imagery|personif(?:y|ication|ied|ies)|alliterat(?:e|ion|ive)|hyperbole|symbol(?:ism|ic)?|repetition|onomatopoeia|juxtapos(?:e|ition|ed)|contrast|adjective|verb|noun|diction|connotation|pathetic\s+fallacy|sensory)\b/i;
+const RE_TECH_EFFECT = /\b(create(?:s|d)?|evoke(?:s|d)?|portray(?:s|ing|ed)?|convey(?:s|ing|ed)?|emphasi[sz]e(?:s|d)?|reinforc(?:e|es|ed|ing)|build(?:s|ing)?|generat(?:e|es|ed|ing)|establish(?:es|ed|ing)?|produce(?:s|d)?|heighten(?:s|ed|ing)?)\b/i;
+const RE_WORDLEVEL = /\b(the\s+word|the\s+term|the\s+phrase|specifically|connotation|the\s+verb|the\s+adjective|the\s+noun|focus(?:es|ing)?\s+on|the\s+choice\s+of)\b/i;
+
+/* ---------- Helpers ---------- */
+function countWords(s) {
+  const t = s.trim();
+  return t ? t.split(/\s+/).length : 0;
+}
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function hasQuoteIn(answer, reference) {
+  if (/["“”'][^"“”']{2,}["“”']/.test(answer)) return true;
+  if (!reference) return false;
+  const refWords = reference.toLowerCase().split(/\s+/).filter(w => w.length > 3);
+  const lower = answer.toLowerCase();
+  return refWords.some(w => lower.includes(w));
 }
 
-function resetAnswers() {
-  $("answer1a").value = "";
-  $("answer1b").value = "";
-  $("count1a").textContent = "0";
-  $("count1b").textContent = "0";
-  $("feedback1a").classList.remove("show");
-  $("feedback1b").classList.remove("show");
-  $("totalScore").classList.remove("show");
+/* ---------- Set rendering ---------- */
+function loadSet(idx) {
+  const s = TEXT_SETS[idx];
+  $('passage').textContent = s.passage;
+  $('q1aText').textContent = s.q1a;
+  $('q1bText').textContent = s.q1b;
+  $('q1bRef').textContent = s.reference;
+  $('q1aInput').value = '';
+  $('q1bInput').value = '';
+  $('setNumber').textContent = idx + 1;
+  updateCounters();
+  $('feedback').classList.remove('visible');
+}
+function updateCounters() {
+  const a = $('q1aInput').value;
+  const b = $('q1bInput').value;
+  $('q1aChars').textContent = a.length;
+  $('q1bChars').textContent = b.length;
+  $('q1aWords').textContent = countWords(a);
+  $('q1bWords').textContent = countWords(b);
 }
 
-const TECHNIQUE_WORDS = [
-  "simile", "metaphor", "personification", "imagery", "symbol", "symbolism",
-  "alliteration", "hyperbole", "juxtaposition", "contrast", "repetition",
-  "diction", "tone", "syntax", "structure", "description", "adjective",
-  "verb", "comparison", "phrase", "language", "device"
-];
-const EFFECT_WORDS = [
-  "tension", "unease", "fear", "isolation", "loneliness", "loss", "grief",
-  "nostalgia", "hope", "warmth", "calm", "peace", "anxiety", "discomfort",
-  "vivid", "atmosphere", "mood", "emphasis", "emphasises", "emphasizes",
-  "highlights", "evokes", "creates", "establishes", "reinforces", "contrast",
-  "fragility", "stillness", "decay", "memory", "longing", "permanence", "time"
-];
-const DEEPER_WORDS = [
-  "suggests", "implies", "implies that", "represents", "symbolises",
-  "symbolizes", "reflects", "conveys", "reveals", "indicates",
-  "signifies", "embodies", "alludes", "foreshadows", "hints",
-  "reminiscent", "metaphorically"
-];
-const PURPOSE_WORDS = [
-  "purpose", "introduces", "establishes", "sets", "setting", "context",
-  "character", "theme", "atmosphere", "mood", "tone", "significance",
-  "important", "function", "role"
-];
-
-function lower(s) { return s.toLowerCase(); }
-function hasAny(text, list) {
-  const t = lower(text);
-  return list.some(w => t.includes(w));
-}
-function hasAnyMatched(text, list) {
-  const t = lower(text);
-  return list.filter(w => t.includes(w));
-}
-
-function markQ1a(answer) {
-  const trimmed = answer.trim();
-  if (trimmed.length < 15) {
-    return { score: 0, max: 3, items: [{ ok: false, msg: "Answer is too short — develop your response." }] };
+/* ---------- Marking ---------- */
+function analyzeQ1a(answer) {
+  const words = countWords(answer);
+  if (words < 15) {
+    return { score: 0, level: 1, missing: ['Answer too brief — only ' + words + ' words (minimum 15 required for credit)'], strengths: [] };
   }
+  const isGeneric = RE_GENERIC.test(answer);
+  const hasPurpose = RE_PURPOSE.test(answer);
+  const hasEffect  = RE_EFFECT.test(answer);
+  const hasDeeper  = RE_DEEPER.test(answer);
+  const hasConn    = RE_CONNECT.test(answer);
+
   let score = 0;
-  const items = [];
+  const missing = [], strengths = [];
 
-  const purpose = hasAny(trimmed, PURPOSE_WORDS);
-  if (purpose) { score++; items.push({ ok: true, msg: "Identifies a clear purpose or function." }); }
-  else { items.push({ ok: false, msg: "Missing reference to purpose / significance (e.g. 'introduces', 'establishes')." }); }
+  if (hasPurpose) { score++; strengths.push('Identifies purpose / significance clearly'); }
+  else missing.push("Purpose not identified — use verbs like 'introduces', 'establishes', 'highlights'");
 
-  const effect = hasAny(trimmed, EFFECT_WORDS);
-  if (effect) { score++; items.push({ ok: true, msg: "Mentions an effect, theme, or atmosphere." }); }
-  else { items.push({ ok: false, msg: "Missing an effect word (e.g. tension, mood, atmosphere)." }); }
+  if (hasEffect) { score++; strengths.push('Discusses effect (tone / mood / atmosphere / theme)'); }
+  else missing.push("Effect missing — comment on tone, mood, atmosphere or theme");
 
-  const deeper = hasAny(trimmed, DEEPER_WORDS);
-  if (deeper) { score++; items.push({ ok: true, msg: "Shows deeper meaning ('suggests' / 'implies' / 'reflects')." }); }
-  else { items.push({ ok: false, msg: "Missing deeper meaning — try 'suggests', 'implies', or 'reflects'." }); }
-
-  return { score, max: 3, items };
-}
-
-function markQ1b(answer, quote) {
-  const trimmed = answer.trim();
-  if (trimmed.length < 15) {
-    return { score: 0, max: 2, items: [{ ok: false, msg: "Answer is too short — develop your response." }] };
-  }
-  let score = 0;
-  const items = [];
-
-  const technique = hasAny(trimmed, TECHNIQUE_WORDS);
-  const effect = hasAny(trimmed, EFFECT_WORDS);
-  const deeper = hasAny(trimmed, DEEPER_WORDS);
-
-  if (technique && effect) {
+  if (hasDeeper && hasConn) {
     score++;
-    items.push({ ok: true, msg: "Identifies the technique and an associated effect." });
-  } else if (technique) {
-    items.push({ ok: false, msg: "Technique mentioned but no clear effect (e.g. tension, unease)." });
-  } else if (effect) {
-    items.push({ ok: false, msg: "Effect mentioned but no technique (e.g. simile, imagery)." });
+    strengths.push('Includes deeper meaning AND explanatory logic');
   } else {
-    items.push({ ok: false, msg: "Missing technique AND effect." });
+    if (!hasDeeper) missing.push("Deeper meaning missing — use 'suggests', 'implies' or 'reveals'");
+    if (!hasConn)   missing.push("Explanation logic missing — use 'because', 'which shows' or 'therefore'");
   }
 
-  const refUsed = checkReference(trimmed, quote);
-  if (refUsed && deeper) {
+  if (isGeneric && score > 1) {
+    score = 1;
+    missing.push("Generic phrasing detected ('this shows / helps / makes') — score capped at 1");
+  }
+
+  const level = score >= 3 ? 3 : score === 2 ? 2 : 1;
+  return { score, level, missing, strengths };
+}
+
+function analyzeQ1b(answer, reference) {
+  const words = countWords(answer);
+  if (words < 15) {
+    return { score: 0, level: 1, missing: ['Answer too brief — only ' + words + ' words (minimum 15 required for credit)'], strengths: [] };
+  }
+  const isGeneric  = RE_GENERIC.test(answer);
+  const hasTech    = RE_TECHNIQUE.test(answer);
+  const hasTechEff = RE_TECH_EFFECT.test(answer) || RE_EFFECT.test(answer);
+  const hasQuote   = hasQuoteIn(answer, reference);
+  const hasWordLvl = RE_WORDLEVEL.test(answer);
+  const hasDeeper  = RE_DEEPER.test(answer);
+
+  let score = 0;
+  const missing = [], strengths = [];
+
+  if (hasTech && hasTechEff) {
     score++;
-    items.push({ ok: true, msg: "Refers to the quoted phrase and explores deeper meaning." });
-  } else if (!refUsed) {
-    items.push({ ok: false, msg: "No reference to the quoted phrase — quote or paraphrase it." });
-  } else if (!deeper) {
-    items.push({ ok: false, msg: "Missing deeper meaning ('suggests', 'implies', 'conveys')." });
+    strengths.push('Names a technique AND its effect');
+  } else {
+    if (!hasTech)    missing.push("Literary technique not named (e.g., metaphor, simile, imagery, diction)");
+    if (!hasTechEff) missing.push("Effect of the technique not explained (e.g., creates / evokes / conveys)");
   }
 
-  return { score, max: 2, items };
-}
-
-function checkReference(answer, quote) {
-  const a = lower(answer);
-  if (a.includes('"') || a.includes("'") || a.includes("quote")) return true;
-  const cleaned = quote.replace(/["']/g, "").toLowerCase();
-  const words = cleaned.split(/\s+/).filter(w => w.length > 4);
-  let hits = 0;
-  for (const w of words) if (a.includes(w)) hits++;
-  return hits >= 2;
-}
-
-function renderFeedback(el, result) {
-  const pct = result.score / result.max;
-  const cls = pct === 1 ? "full" : pct >= 0.5 ? "partial" : "low";
-  let html = `<div class="score ${cls}">Score: ${result.score} / ${result.max}</div><ul>`;
-  for (const it of result.items) {
-    html += `<li class="${it.ok ? "ok" : "miss"}">${it.ok ? "✓ " : "✗ "}${it.msg}</li>`;
+  if (hasQuote && hasWordLvl && hasDeeper) {
+    score++;
+    strengths.push('Quote reference + word-level analysis + deeper meaning');
+  } else {
+    if (!hasQuote)    missing.push("Specific quoted word or phrase from the text not referenced");
+    if (!hasWordLvl)  missing.push("Word-level analysis missing — focus on a single word ('the word X…')");
+    if (!hasDeeper)   missing.push("Deeper meaning missing — use 'suggests' or 'implies'");
   }
-  html += "</ul>";
-  el.innerHTML = html;
-  el.classList.add("show");
+
+  // Strict cap: no word-level analysis → max 1
+  if (!hasWordLvl && score > 1) {
+    score = 1;
+    missing.push("No word-level analysis present — score capped at 1");
+  }
+  if (isGeneric && score > 1) {
+    score = 1;
+    missing.push("Generic phrasing detected ('this shows / helps / makes') — score capped at 1");
+  }
+
+  const level = score >= 2 ? 2 : 1;
+  return { score, level, missing, strengths };
 }
 
+/* ---------- Feedback rendering ---------- */
+function levelClass(level) {
+  return level === 3 ? 'level-3' : level === 2 ? 'level-2' : 'level-1';
+}
+function buildCard(title, result, max, model) {
+  const missingHtml = result.missing.length ? `
+    <div class="fb-section">
+      <h4>Areas to Improve</h4>
+      <ul class="fb-list miss">${result.missing.map(m => `<li>${escapeHtml(m)}</li>`).join('')}</ul>
+    </div>` : '';
+  const strengthHtml = result.strengths.length ? `
+    <div class="fb-section">
+      <h4>Strengths</h4>
+      <ul class="fb-list good">${result.strengths.map(s => `<li>${escapeHtml(s)}</li>`).join('')}</ul>
+    </div>` : '';
+  return `
+    <div class="fb-head">
+      <span class="fb-title">${title}</span>
+      <span class="fb-score">${result.score} / ${max}</span>
+    </div>
+    <span class="level ${levelClass(result.level)}">Level ${result.level}</span>
+    ${strengthHtml}
+    ${missingHtml}
+    <div class="model">
+      <h4>Model Answer Structure</h4>
+      <div class="row"><strong>Technique</strong> ${escapeHtml(model.technique)}</div>
+      <div class="row"><strong>Evidence</strong> ${escapeHtml(model.evidence)}</div>
+      <div class="row"><strong>Effect</strong> ${escapeHtml(model.effect)}</div>
+      <div class="row"><strong>Meaning</strong> ${escapeHtml(model.meaning)}</div>
+      <div class="row"><strong>Reader impact</strong> ${escapeHtml(model.readerImpact)}</div>
+    </div>`;
+}
+function renderFeedback(rA, rB, set) {
+  const total = rA.score + rB.score;
+  const totalEl = $('totalScore');
+  totalEl.textContent = total + ' / 5';
+  totalEl.className = 'score ' + (total === 5 ? 'green' : total >= 3 ? 'yellow' : 'red');
+  $('scoreLabel').textContent =
+    total === 5 ? 'Excellent — full marks achieved' :
+    total >= 3 ? 'Solid response — refine to reach top marks' :
+                 'Needs significant development';
+  $('q1aFeedback').innerHTML = buildCard('Question 1a', rA, 3, set.modelQ1a);
+  $('q1bFeedback').innerHTML = buildCard('Question 1b', rB, 2, set.modelQ1b);
+  $('feedback').classList.add('visible');
+  $('feedback').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+/* ---------- Actions ---------- */
 function submit() {
-  const a1 = $("answer1a").value;
-  const a2 = $("answer1b").value;
-  const r1 = markQ1a(a1);
-  const r2 = markQ1b(a2, SETS[currentSet].quote);
-  renderFeedback($("feedback1a"), r1);
-  renderFeedback($("feedback1b"), r2);
-  $("totalNum").textContent = `${r1.score + r2.score} / 5`;
-  $("totalScore").classList.add("show");
+  const set = TEXT_SETS[currentSet];
+  const rA = analyzeQ1a($('q1aInput').value);
+  const rB = analyzeQ1b($('q1bInput').value, set.reference);
+  renderFeedback(rA, rB, set);
 }
-
-function nextSet() {
-  currentSet = (currentSet + 1) % SETS.length;
+function next() {
+  currentSet = (currentSet + 1) % TEXT_SETS.length;
   loadSet(currentSet);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function reset() {
+  $('q1aInput').value = '';
+  $('q1bInput').value = '';
+  updateCounters();
+  $('feedback').classList.remove('visible');
 }
 
-$("answer1a").addEventListener("input", e => $("count1a").textContent = e.target.value.length);
-$("answer1b").addEventListener("input", e => $("count1b").textContent = e.target.value.length);
-$("submitBtn").addEventListener("click", submit);
-$("nextBtn").addEventListener("click", nextSet);
-$("resetBtn").addEventListener("click", resetAnswers);
+/* ---------- Wire up ---------- */
+$('q1aInput').addEventListener('input', updateCounters);
+$('q1bInput').addEventListener('input', updateCounters);
+$('btnSubmit').addEventListener('click', submit);
+$('btnNext').addEventListener('click', next);
+$('btnReset').addEventListener('click', reset);
 
 loadSet(0);
 </script>
